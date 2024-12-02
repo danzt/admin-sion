@@ -1,182 +1,6 @@
-// import { useState, useEffect } from 'react';
-// import useStore from '../store/user';
-// import { User, UserRole, UserStatus } from '../domain/user';
-//
-// const UsersComponent = () => {
-//   const now = new Date();
-//
-//   const { users, addUser, fetchUsers } = useStore(); // Accede al estado y las funciones del store
-//   const [name, setName] = useState('');
-//   const [lastName, setLastName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [displayName, setDisplayName] = useState('');
-//   const [phone, setPhone] = useState('');
-//   const [avatar, setAvatar] = useState('');
-//   const [address, setAddress] = useState('');
-//   const [role, setRole] = useState<User['role']>('user');
-//   const [status, setStatus] = useState<User['status']>('active');
-//   const [createdAt, setCreatedAt] = useState<User['createdAt']>(now);
-//   const [updatedAt, setUpdatedAt] = useState<User['updatedAt']>(now);
-//
-//   useEffect(() => {
-//     fetchUsers();
-//   }, [fetchUsers]);
-//
-//   const handleClear = () => {
-//     setName('');
-//     setLastName('');
-//     setEmail('');
-//     setDisplayName('');
-//     setPhone('');
-//     setAvatar('');
-//     setAddress('');
-//     setRole('user');
-//     setStatus('active');
-//     setCreatedAt(new Date());
-//     setUpdatedAt(new Date());
-//   };
-//
-//   const handleSelectValue = (value: string, name: string) => {
-//     if (name == 'status') {
-//       setStatus(value as UserStatus);
-//     } else if (name == 'role') {
-//       setRole(value as UserRole);
-//     }
-//   };
-//
-//   const handleAddUser = async () => {
-//     if (!name || !email) {
-//       alert('Por favor, completa todos los campos');
-//       return;
-//     }
-//
-//     const newUser: User = {
-//       id: '',
-//       name,
-//       lastName,
-//       displayName,
-//       email,
-//       phone,
-//       avatar,
-//       address,
-//       role,
-//       status,
-//       createdAt,
-//       updatedAt,
-//       createdBy: 'admin',
-//       updatedBy: 'admin',
-//     };
-//
-//     try {
-//       await addUser(newUser); // Llama a la función del store
-//       alert('Usuario agregado con éxito');
-//       handleClear();
-//     } catch (error) {
-//       console.error('Error al agregar usuario:', error);
-//     }
-//   };
-//
-//   return (
-//     <div className="p-4">
-//       <h1 className="text-xl font-bold mb-4">Gestión de Usuarios</h1>
-//
-//       {/* Formulario para agregar usuarios */}
-//       <div className="mb-4">
-//         <input
-//           type="text"
-//           value={name}
-//           onChange={(e) => setName(e.target.value)}
-//           placeholder="Nombre"
-//           className="border p-2 mb-2 w-full"
-//         />
-//         <input
-//           type="text"
-//           value={lastName}
-//           onChange={(e) => setLastName(e.target.value)}
-//           placeholder="Apellido"
-//           className="border p-2 mb-2 w-full"
-//         />
-//         <input
-//           type="email"
-//           value={email}
-//           onChange={(e) => setEmail(e.target.value)}
-//           placeholder="Correo electrónico"
-//           className="border p-2 mb-2 w-full"
-//         />
-//         <input
-//           type="text"
-//           value={displayName}
-//           onChange={(e) => setDisplayName(e.target.value)}
-//           placeholder="Nombre para mostrar"
-//           className="border p-2 mb-2 w-full"
-//         />
-//         <input
-//           type="text"
-//           value={phone}
-//           onChange={(e) => setPhone(e.target.value)}
-//           placeholder="Número de teléfono"
-//           className="border p-2 mb-2 w-full"
-//         />
-//         <input
-//           type="text"
-//           value={avatar}
-//           onChange={(e) => setAvatar(e.target.value)}
-//           placeholder="URL de la imagen de perfil"
-//           className="border p-2 mb-2 w-full"
-//         />
-//         <input
-//           type="text"
-//           value={address}
-//           onChange={(e) => setAddress(e.target.value)}
-//           placeholder="Dirección"
-//           className="border p-2 mb-2 w-full"
-//         />
-//         <select
-//           value={role}
-//           onChange={(e) => handleSelectValue(e.target.value, 'role')}
-//           className="border p-2 mb-2 w-full"
-//         >
-//           <option value="admin">Administrador</option>
-//           <option value="user">Usuario</option>
-//           <option value="guest">Invitado</option>
-//         </select>
-//         <select
-//           value={status}
-//           onChange={(e) => handleSelectValue(e.target.value, 'status')}
-//           className="border p-2 mb-2 w-full"
-//         >
-//           <option value="active">Activo</option>
-//           <option value="inactive">Inactivo</option>
-//         </select>
-//         <button
-//           onClick={handleAddUser}
-//           className="bg-blue-500 text-white px-4 py-2 rounded"
-//         >
-//           Agregar Usuario
-//         </button>
-//       </div>
-//
-//       {/* Lista de usuarios */}
-//       <h2 className="text-lg font-semibold mb-2">Usuarios Registrados:</h2>
-//       <ul className="list-disc pl-5">
-//         <ul>
-//           {users.map((user) => (
-//             <li key={user.id}>
-//               {user.displayName} - {user.role}
-//             </li>
-//           ))}
-//         </ul>{' '}
-//       </ul>
-//     </div>
-//   );
-// };
-//
-// export default UsersComponent;
-//
-//
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { z } from 'zod';
-import { FiAlertCircle, FiGlobe, FiUpload } from 'react-icons/fi';
+import { FiAlertCircle, FiGlobe, FiUser } from 'react-icons/fi';
 
 const translations = {
   en: {
@@ -276,7 +100,7 @@ const FeatureRichForm = () => {
     validateField(name, value);
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -291,7 +115,7 @@ const FeatureRichForm = () => {
     }
   };
 
-  const getErrorMessage = (fieldName, error) => {
+  const getErrorMessage = (fieldName: string, error: string) => {
     if (!error) return '';
     switch (fieldName) {
       case 'firstName':
@@ -315,14 +139,14 @@ const FeatureRichForm = () => {
     }
   };
 
-  const validateField = (fieldName, value) => {
+  const validateField = (fieldName: string, value: string) => {
     try {
       const fieldSchema = z.object({
         [fieldName]: formSchema.shape[fieldName],
       });
       fieldSchema.parse({ [fieldName]: value });
       setErrors((prev) => ({ ...prev, [fieldName]: '' }));
-    } catch (error) {
+    } catch (error: any) {
       setErrors((prev) => ({
         ...prev,
         [fieldName]: getErrorMessage(fieldName, error.errors[0].message),
@@ -330,7 +154,7 @@ const FeatureRichForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       formSchema.parse(formData);
@@ -361,8 +185,8 @@ const FeatureRichForm = () => {
   const renderInput = (name, type = 'text', props = {}) => (
     <div className="relative">
       <input
-        id={name}
-        name={name}
+        id={name as string}
+        name={name as string}
         type={type}
         required
         value={formData[name]}
@@ -533,13 +357,14 @@ const FeatureRichForm = () => {
                 >
                   {t.role}
                 </label>
-                <div className="mt-1">
+                <div className="sm:col-span-3">
                   <select
                     id="role"
                     name="role"
                     value={formData.role}
                     onChange={handleChange}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    autoComplete="country-name"
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   >
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
@@ -554,13 +379,14 @@ const FeatureRichForm = () => {
                 >
                   {t.status}
                 </label>
-                <div className="mt-1">
+
+                <div className="sm:col-span-3">
                   <select
                     id="status"
                     name="status"
                     value={formData.status}
                     onChange={handleChange}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   >
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -584,7 +410,7 @@ const FeatureRichForm = () => {
                     htmlFor="avatar-input"
                     className="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    <FiUpload className="-ml-1 mr-2 h-5 w-5 text-gray-400" />
+                    <FiUser className="-ml-1 mr-2 h-5 w-5 text-gray-400" />
                     Upload
                   </label>
                   {formData.avatar && (
