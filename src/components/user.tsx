@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { z } from 'zod';
 import { FiAlertCircle, FiGlobe, FiUser } from 'react-icons/fi';
 
-const translations = {
+const translations: Record<string, Record<string, string>> = {
   en: {
     title: 'Contact Form',
     firstName: 'First Name',
@@ -86,11 +86,11 @@ const FeatureRichForm = () => {
 
   const t = translations[language];
 
-  const handleLanguageChange = (e) => {
+  const handleLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -139,10 +139,10 @@ const FeatureRichForm = () => {
     }
   };
 
-  const validateField = (fieldName: string, value: string) => {
+  const validateField = (fieldName: string | number, value: string) => {
     try {
       const fieldSchema = z.object({
-        [fieldName]: formSchema.shape[fieldName],
+        [fieldName]: formSchema.shape[fieldName] as z.ZodType<any>, // eslint-disable-line @typescript-eslint/no-explicit-any
       });
       fieldSchema.parse({ [fieldName]: value });
       setErrors((prev) => ({ ...prev, [fieldName]: '' }));
