@@ -5,7 +5,6 @@ import MainLayout from './layouts/MainLayout';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
 import NotFound from './pages/404';
-
 function App() {
   return (
     <>
