@@ -1,5 +1,5 @@
-import UserComponent from "./components/user";
-import "./App.css";
+import UserComponent from './components/user';
+import './App.css';
 
 function App() {
   return (

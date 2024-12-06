@@ -1,57 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { z } from 'zod';
 import { FiAlertCircle, FiGlobe, FiUser } from 'react-icons/fi';
-
-const translations: Record<string, Record<string, string>> = {
-  en: {
-    title: 'Contact Form',
-    firstName: 'First Name',
-    lastName: 'Last Name',
-    displayName: 'Display Name',
-    email: 'Email',
-    phone: 'Phone Number',
-    address: 'Address',
-    role: 'Role',
-    status: 'Status',
-    avatar: 'Avatar',
-    createdAt: 'Created At',
-    updatedAt: 'Updated At',
-    comments: 'Comments',
-    submit: 'Submit',
-    success: 'Form submitted successfully!',
-    nameError: 'Name must be at least 2 characters',
-    emailError: 'Invalid email format',
-    phoneError: 'Invalid phone number format',
-    commentsMinError: 'Comments must be at least 10 characters',
-    commentsMaxError: 'Comments cannot exceed 500 characters',
-    addressError: 'Address is required',
-    avatarError: 'Avatar is required',
-  },
-  es: {
-    title: 'Formulario de Contacto',
-    firstName: 'Nombre',
-    lastName: 'Apellido',
-    displayName: 'Nombre para Mostrar',
-    email: 'Correo Electrónico',
-    phone: 'Número de Teléfono',
-    address: 'Dirección',
-    role: 'Rol',
-    status: 'Estado',
-    avatar: 'Avatar',
-    createdAt: 'Creado En',
-    updatedAt: 'Actualizado En',
-    comments: 'Comentarios',
-    submit: 'Enviar',
-    success: '¡Formulario enviado con éxito!',
-    nameError: 'El nombre debe tener al menos 2 caracteres',
-    emailError: 'Formato de correo electrónico inválido',
-    phoneError: 'Formato de número de teléfono inválido',
-    commentsMinError: 'Los comentarios deben tener al menos 10 caracteres',
-    commentsMaxError: 'Los comentarios no pueden exceder los 500 caracteres',
-    addressError: 'La dirección es requerida',
-    avatarError: 'El avatar es requerido',
-  },
-};
+import useStore from '../store/user';
+import { translations } from '../core/utils/Traslations';
 
 const formSchema = z.object({
   firstName: z.string().min(2),
@@ -154,8 +105,10 @@ const FeatureRichForm = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const { addUser } = useStore();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       formSchema.parse(formData);
       setIsSubmitted(true);
@@ -172,6 +125,8 @@ const FeatureRichForm = () => {
         avatar: '',
         comments: '',
       });
+
+      await addUser(formData);
       setErrors({});
     } catch (error) {
       const newErrors = {};
