@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '../components/table';
 import { getRecentOrders } from '../core/utils/data';
+import useStore from '../store/user';
 
 export function Stat({
   title,
@@ -39,10 +40,16 @@ export function Stat({
 function Home() {
   const [orders, setOrders] = useState([]);
 
+  const user = useStore(state => state.user);
+  useEffect(() => {
+    console.log(user); // Ahora obtendrás el usuario en tiempo real
+  }, [user]);
+
+
   useEffect(() => {
     const fetchData = async () => {
       const fetchedOrders = await getRecentOrders();
-      setOrders(fetchedOrders);
+      setOrders(fetchedOrders as never);
     };
 
     fetchData();
@@ -90,8 +97,8 @@ function Home() {
               <TableCell>{order.customer.name}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <Avatar src={order.event.thumbUrl} className="size-6" />
-                  <span>{order.event.name}</span>
+                  <Avatar src={order.event?.thumbUrl} className="size-6" />
+                  <span>{order.event?.name}</span>
                 </div>
               </TableCell>
               <TableCell className="text-right">US{order.amount.usd}</TableCell>

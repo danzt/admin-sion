@@ -23,3 +23,8 @@ export interface User extends UserBasic, Auditable, BaseDocument {
   createdAt: FirebaseDate;
   updatedAt: FirebaseDate;
 }
+
+export interface ParamsUserCredentials {
+  email: string;
+  password: string;
+}

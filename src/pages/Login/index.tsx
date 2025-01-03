@@ -1,4 +1,15 @@
+import userStore from '../../store/user/';
+
 export default function Login() {
+  const handleSignInWithGoogle = async () => {
+    try {
+      await userStore.signInWithGoogle();
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error al iniciar sesión con Google:', error);
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -131,7 +142,7 @@ export default function Login() {
 
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <a
-                  href="#"
+                  onClick={handleSignInWithGoogle}
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
                 >
                   <svg
