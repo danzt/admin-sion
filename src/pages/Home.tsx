@@ -42,8 +42,8 @@ function Home() {
 
   const user = useStore(state => state.user);
   useEffect(() => {
-    console.log(user); // Ahora obtendrás el usuario en tiempo real
-  }, [user]);
+  console.log('User in Home:', user); // Verifica el estado del usuario aquí
+}, [user]);
 
 
   useEffect(() => {

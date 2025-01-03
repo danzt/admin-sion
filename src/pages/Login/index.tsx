@@ -1,14 +1,27 @@
 import userStore from '../../store/user/';
+import { useEffect } from 'react';
 
 export default function Login() {
   const handleSignInWithGoogle = async () => {
     try {
-      await userStore.signInWithGoogle();
-      window.location.href = '/';
+      await userStore.getState().signInWithGoogle();
+      const { user } = userStore.getState();
+      console.log('User after sign in:', user); // Para confirmar que el usuario ha sido asignado
+      if (user) {
+        window.location.href = '/';
+      } else {
+        console.error('User not found after sign in.');
+      }
     } catch (error) {
       console.error('Error al iniciar sesión con Google:', error);
     }
   };
+
+  useEffect(() => {
+    userStore.subscribe((state) => {
+      console.log('User state changed:', state.user);
+    });
+  }, []);
 
   return (
     <>
